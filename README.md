@@ -25,11 +25,12 @@ To set up the project locally, follow these steps:
    git clone https://github.com/yourusername/medai-assistant.git
    
 Install the required packages:
+
 pip install -r requirements.txt
 
 Create a file named api_key.py and add your Google Generative AI API key:
 
-api_key = "YOUR_API_KEY"
+api_key = "YOUR_API_KEY".
 
 Run the application:
 python app.py
