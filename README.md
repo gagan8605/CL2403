@@ -22,7 +22,7 @@ To set up the project locally, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/medai-assistant.git
+   https://github.com/gagan8605/CL2403.git
    
 Install the required packages:
 
