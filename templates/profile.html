@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .profile-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .profile-detail {
+            margin: 10px 0;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h1>User Profile</h1>
+        {% if user %}
+            <div class="profile-detail"><strong>Name:</strong> {{ user.name }}</div>
+            <div class="profile-detail"><strong>Email:</strong> {{ user.email }}</div>
+            <div class="profile-detail"><strong>Username:</strong> {{ user.username }}</div>
+            <div class="profile-detail"><strong>Age:</strong> {{ user.age }}</div>
+            <div class="profile-detail"><strong>Profession:</strong> {{ user.profession }}</div>
+            <div class="profile-detail"><strong>Date of Birth:</strong> {{ user.dob }}</div>
+            <div class="profile-detail"><strong>Phone:</strong> {{ user.phone }}</div>
+        {% else %}
+            <p>No user details found.</p>
+        {% endif %}
+        <a href="{{ url_for('index_main') }}">Back to Main Page</a>
+    </div>
+</body>
+</html>

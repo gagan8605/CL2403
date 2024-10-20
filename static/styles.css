@@ -1,0 +1,84 @@
+/* General Body Styles */
+body {
+    background-color: #f8f9fa; /* Light background color */
+    font-family: Arial, sans-serif; /* Clean font */
+    color: #343a40; /* Dark text color for contrast */
+    line-height: 1.6; /* Improve readability */
+}
+
+/* Container Styles */
+.container {
+    margin-top: 50px; /* Top margin for spacing */
+    max-width: 600px; /* Limit the width of the container */
+    margin-left: auto; /* Center the container horizontally */
+    margin-right: auto; /* Center the container horizontally */
+    padding: 20px; /* Padding inside the container */
+    background-color: #ffffff; /* White background for the container */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Title Styles */
+h1 {
+    font-size: 2.5em; /* Large title */
+    text-align: center; /* Center the title */
+    color: #007bff; /* Blue color for the title */
+    margin-bottom: 20px; /* Space below the title */
+}
+
+/* Subheader Styles */
+h2 {
+    font-size: 1.8em; /* Slightly smaller than h1 */
+    color: #495057; /* Dark gray for subheader */
+    margin-bottom: 10px; /* Space below the subheader */
+}
+
+/* Button Styles */
+button {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: #ffffff; /* White text */
+    border: none; /* Remove border */
+    padding: 10px 20px; /* Padding around text */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1em; /* Regular font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* File Upload Styles */
+input[type="file"] {
+    margin-top: 15px; /* Space above the file input */
+    width: 100%; /* Full width for file input */
+    padding: 10px; /* Padding inside file input */
+    border: 2px dashed #007bff; /* Dashed border for visual cue */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+}
+
+/* Result Styles */
+.result {
+    margin-top: 20px; /* Space above the result */
+    padding: 15px; /* Padding for result section */
+    background-color: #e9ecef; /* Light gray background */
+    border-radius: 5px; /* Rounded corners */
+    border: 1px solid #ced4da; /* Light border */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px; /* Less padding on smaller screens */
+    }
+
+    h1 {
+        font-size: 2em; /* Smaller title on mobile */
+    }
+
+    h2 {
+        font-size: 1.5em; /* Smaller subheader on mobile */
+    }
+}

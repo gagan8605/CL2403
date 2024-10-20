@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedAI Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #75b2ef;
+        }
+        .container {
+            margin-top: 50px;
+            text-align: center;
+        }
+        #result {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: #f9f9f9;
+        }
+        h1 {
+            color: #333;
+        }
+        img {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 30px;
+        }
+        .greeting {
+            font-size: 1.2em;
+            color: #0fd512;
+            margin-bottom: 20px;
+        }
+        .info-section, .profile-section {
+            margin-top: 30px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .info-section h2, .profile-section h2 {
+            color: #333;
+        }
+        .profile-section p {
+            margin: 10px 0;
+            color: #555;
+        }
+        .loading {
+            display: none;
+            font-size: 1.2em;
+            color: #ff8800;
+        }
+        .nav {
+            margin: 20px;
+        }
+        .nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .profile-container {
+            display: none; /* Hide profile by default */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>MedAI Assistant</h1>
+    <div class="greeting" id="greetingMessage"></div>
+    <img src="{{ url_for('static', filename='images/unnamed.webp') }}" alt="MedAI Assistant Logo">
+
+    <div class="nav">
+        <a href="#" id="profileTab">Profile</a>
+        <a href="#" id="mainTab">Main</a>
+    </div>
+
+    <div class="info-section">
+        <h2>Welcome to MedAI Assistant!</h2>
+        <p>The MedAI Assistant is a cutting-edge application designed to help you analyze medical images for disease detection and information. Our tool utilizes advanced algorithms to provide accurate insights from your uploaded images.</p>
+        <h3>Features:</h3>
+        <ul>
+            <li>Easy image upload for quick analysis.</li>
+            <li>Intuitive user interface for seamless interaction.</li>
+            <li>Real-time analysis results.</li>
+        </ul>
+        <h3>How to Use:</h3>
+        <ol>
+            <li>Click on the "Choose File" button to upload a medical image.</li>
+            <li>Hit the "Analyze Image" button to start the analysis.</li>
+            <li>View the results displayed below.</li>
+        </ol>
+    </div>
+
+    <form id="uploadForm">
+        <input type="file" id="fileInput" name="file" accept="image/*" required aria-label="Upload Medical Image">
+        <button type="submit">Analyze Image</button>
+    </form>
+
+    <div class="loading" id="loadingMessage">Analyzing your image, please wait...</div>
+    <div id="result"></div>
+
+    <div class="profile-container" id="profileContainer">
+        <h2>User Profile</h2>
+        {% if user %}
+            <p><strong>Name:</strong> {{ user.name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Age:</strong> {{ user.age }}</p>
+            <p><strong>Profession:</strong> {{ user.profession }}</p>
+            <p><strong>Date of Birth:</strong> {{ user.dob }}</p>
+            <p><strong>Phone:</strong> {{ user.phone }}</p>
+        {% else %}
+            <p>No user details found.</p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    function displayGreeting() {
+        const greetingMessage = document.getElementById('greetingMessage');
+        const currentHour = new Date().getHours();
+        let greeting;
+
+        if (currentHour < 12) {
+            greeting = "Good Morning! Ready to analyze your images.";
+        } else if (currentHour < 18) {
+            greeting = "Good Afternoon! Let's get started with your analysis.";
+        } else {
+            greeting = "Good Evening! Time to analyze those images.";
+        }
+
+        greetingMessage.innerText = greeting; // Display the greeting
+    }
+
+    // Call the function to display the greeting when the page loads
+    window.onload = displayGreeting;
+
+    // Handle image upload form submission
+    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+        event.preventDefault();  // Prevent the form from submitting the default way
+
+        const fileInput = document.getElementById('fileInput');
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+
+        // Show loading message
+        const loadingMessage = document.getElementById('loadingMessage');
+        loadingMessage.style.display = 'block';
+        document.getElementById('result').innerText = ''; // Clear previous results
+
+        fetch('/analyze', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            loadingMessage.style.display = 'none'; // Hide loading message
+            if (data.result) {
+                document.getElementById('result').innerText = data.result; // Display the result
+            } else {
+                document.getElementById('result').innerText = 'No results found. Please try again.'; // Error message
+            }
+        })
+        .catch(error => {
+            loadingMessage.style.display = 'none'; // Hide loading message
+            document.getElementById('result').innerText = `Error: ${error}`; // Handle errors
+        });
+
+        // Reset file input after submission
+        fileInput.value = '';
+    });
+
+    // Handle profile tab click
+    document.getElementById('profileTab').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default link behavior
+        document.querySelector('.info-section').style.display = 'none'; // Hide info section
+        document.getElementById('profileContainer').style.display = 'block'; // Show profile section
+    });
+
+    // Handle main tab click
+    document.getElementById('mainTab').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default link behavior
+        document.getElementById('profileContainer').style.display = 'none'; // Hide profile section
+        document.querySelector('.info-section').style.display = 'block'; // Show info section
+    });
+</script>
+</body>
+</html>

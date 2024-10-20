@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enroll in MedAI Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #75b2ef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .enroll-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .flash {
+            color: green; /* Change this color based on success or error */
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="enroll-container">
+        <h1>Enroll in MedAI Assistant</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul>
+              {% for category, message in messages %}
+                <li class="flash">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+        <form method="POST" action="{{ url_for('enroll') }}">
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="number" name="age" placeholder="Age" required min="1">
+            
+            <!-- Profession Dropdown -->
+            <select name="profession" required>
+                <option value="" disabled selected>Select Profession</option>
+                <option value="Student">Student</option>
+                <option value="Doctor">Doctor</option>
+                <option value="Parent">Parent</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <!-- Date of Birth -->
+            <label for="dob" style="display: block; text-align: left;">Date of Birth</label>
+            <input type="date" name="dob" required>
+
+            <!-- Phone Number -->
+            <input type="text" name="phone" placeholder="Phone Number" required pattern="[0-9]{10}" title="Enter a valid 10-digit phone number">
+
+            <button type="submit">Enroll</button>
+        </form>
+        <p>Already have an account? <a href="{{ url_for('login') }}">Login Here</a></p>
+    </div>
+</body>
+</html>
